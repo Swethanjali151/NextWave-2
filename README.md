@@ -2,8 +2,7 @@
 
 > **Role Assessment:** GenAI Engineer - Content Systems  
 > **Topic for Submission:** Introduction to RAG (Retrieval-Augmented Generation)  
-> **Target Audience:** 12th-grade graduate from India, limited English vocabulary, non-English-medium background, eager to kickstart an AI career.  
-> **Submission Form:** [NextWave Take-Home Submission](https://forms.gle/a7MJUNoTxvSdRB8R6)
+> **Target Audience:** 12th-grade graduate from India, limited English vocabulary, non-English-medium background, eager to kickstart an AI career.
 
 ---
 
