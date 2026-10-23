@@ -81,16 +81,21 @@ class EvaluatorAgent:
         )
 
         # Checkpoint 4: BEGINNER_FRIENDLY_LANGUAGE
-        is_beginner_friendly = (avg_sentence_len <= 22.0) and (not self._has_dense_academic_prose(lesson_text))
+        has_academic = self._has_dense_academic_prose(lesson_text)
+        is_beginner_friendly = (avg_sentence_len <= 22.0) and (not has_academic)
+        if is_beginner_friendly:
+            lang_critique = f"Language is crisp and accessible. Average sentence length is {avg_sentence_len:.1f} words (target <= 22 words)."
+        elif has_academic:
+            lang_critique = "Failed: Dense academic vocabulary or overly complex phrasing detected (unsuitable for 12th-grade beginner)."
+        else:
+            lang_critique = f"Failed: Sentences are too long and dense (average sentence length {avg_sentence_len:.1f} words, target <= 22 words)."
+
         checkpoints["BEGINNER_FRIENDLY_LANGUAGE"] = CheckpointResult(
             checkpoint_id="BEGINNER_FRIENDLY_LANGUAGE",
             name=RUBRIC_CHECKPOINTS["BEGINNER_FRIENDLY_LANGUAGE"]["name"],
             passed=is_beginner_friendly,
             score=1 if is_beginner_friendly else 0,
-            critique=(
-                f"Language is crisp and accessible. Average sentence length is {avg_sentence_len:.1f} words (target <= 22 words)."
-                if is_beginner_friendly else f"Failed: Prose is overly complex or sentences too dense (average sentence length {avg_sentence_len:.1f} words)."
-            ),
+            critique=lang_critique,
             suggested_fix="" if is_beginner_friendly else "Shorten sentences, simplify vocabulary, and use bullet points to ease comprehension for non-English medium students."
         )
 
