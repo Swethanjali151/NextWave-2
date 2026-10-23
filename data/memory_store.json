@@ -1,0 +1,92 @@
+{
+  "total_runs": 9,
+  "passed_runs": 7,
+  "total_retries": 4,
+  "checkpoint_failure_counts": {
+    "ACCURATE_AND_GROUNDED": 0,
+    "TEACHES_BY_EXAMPLE": 6,
+    "COVERS_KEY_POINTS": 0,
+    "BEGINNER_FRIENDLY_LANGUAGE": 7,
+    "NO_UNEXPLAINED_JARGON": 8,
+    "COHERENT_TEACHING_FLOW": 0
+  },
+  "flagged_jargon_bank": [
+    "cosine similarity",
+    "latent space",
+    "parametric memory",
+    "tokenized context window",
+    "vector embeddings"
+  ],
+  "distilled_rules": [
+    "RULE 1 (From Prior Rejection): Always define 'Embeddings' as 'a digital fingerprint or library catalog card' immediately upon mention.",
+    "RULE 2 (From Prior Rejection): Ensure sentences remain under 20 words on average to accommodate non-English medium students.",
+    "RULE 3 (From Prior Rejection): Use the 'Open-Book Exam' analogy to contrast memorized AI vs reference-checking AI.",
+    "EVOLVED RULE: Strictly forbid dropping acronyms (RAG, LLM, API) without inline bracket definitions on first mention.",
+    "EVOLVED RULE: Break down compound sentences into bullet points and short conversational remarks."
+  ],
+  "run_history": [
+    {
+      "timestamp": "2026-10-23T11:10:43.930588",
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "overall_passed": true,
+      "iterations": 2,
+      "rejections_count": 1
+    },
+    {
+      "timestamp": "2026-10-23T11:11:34.837042",
+      "topic": "Introduction to RAG",
+      "overall_passed": false,
+      "iterations": 1,
+      "rejections_count": 1
+    },
+    {
+      "timestamp": "2026-10-23T11:11:34.868479",
+      "topic": "Introduction to RAG",
+      "overall_passed": true,
+      "iterations": 1,
+      "rejections_count": 0
+    },
+    {
+      "timestamp": "2026-10-23T11:11:34.899475",
+      "topic": "Introduction to RAG",
+      "overall_passed": true,
+      "iterations": 2,
+      "rejections_count": 1
+    },
+    {
+      "timestamp": "2026-10-23T11:11:54.366779",
+      "topic": "Introduction to RAG",
+      "overall_passed": false,
+      "iterations": 1,
+      "rejections_count": 1
+    },
+    {
+      "timestamp": "2026-10-23T11:11:54.400377",
+      "topic": "Introduction to RAG",
+      "overall_passed": true,
+      "iterations": 1,
+      "rejections_count": 0
+    },
+    {
+      "timestamp": "2026-10-23T11:11:54.433357",
+      "topic": "Introduction to RAG",
+      "overall_passed": true,
+      "iterations": 2,
+      "rejections_count": 1
+    },
+    {
+      "timestamp": "2026-10-23T11:14:43.127103",
+      "topic": "Introduction to RAG",
+      "overall_passed": true,
+      "iterations": 1,
+      "rejections_count": 0
+    },
+    {
+      "timestamp": "2026-10-23T11:14:57.805215",
+      "topic": "Introduction to RAG",
+      "overall_passed": true,
+      "iterations": 2,
+      "rejections_count": 1
+    }
+  ]
+}

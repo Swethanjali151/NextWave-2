@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NextWave GenAI Content Systems - Self-Evaluating Lesson Content Generator with LangGraph feedback loop.">
+  <title>NextWave | Self-Evaluating Lesson Content Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header Navigation -->
+    <header class="app-header">
+      <div class="header-brand">
+        <div class="logo-mark">NW</div>
+        <div class="brand-text">
+          <h1>NextWave Content Systems</h1>
+          <span class="sub-title">Self-Evaluating Agentic Lesson Generator</span>
+        </div>
+      </div>
+      <div class="header-badges">
+        <span class="badge audience-badge">Target: 12th-Grade India (Non-English Medium)</span>
+        <span class="badge architecture-badge">Orchestrator: LangGraph State Machine</span>
+        <div class="status-indicator" id="systemStatus">
+          <span class="status-dot"></span>
+          <span class="status-label">System Ready</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Workspace Grid -->
+    <main class="main-content">
+      <!-- Left Column: Controls & Pipeline State Visualizer -->
+      <section class="control-panel glass-card">
+        <div class="panel-header">
+          <h2>Agentic Pipeline Controls</h2>
+          <span class="version-tag">Loop: Generate → Evaluate → Regenerate</span>
+        </div>
+
+        <form id="pipelineForm" class="control-form" onsubmit="event.preventDefault();">
+          <div class="form-group">
+            <label for="topicInput">Lesson Topic</label>
+            <input type="text" id="topicInput" value="Introduction to RAG (Retrieval-Augmented Generation)" placeholder="Enter AI topic to generate...">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="providerSelect">LLM Engine</label>
+              <select id="providerSelect">
+                <option value="auto">Auto (Live API / Simulation Fallback)</option>
+                <option value="simulation">High-Fidelity Simulation Mode</option>
+                <option value="gemini">Google Gemini 2.5 Flash</option>
+                <option value="openai">OpenAI GPT-4o-mini</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="maxRetriesInput">Max Retries</label>
+              <select id="maxRetriesInput">
+                <option value="2">2 Retries (Bounded)</option>
+                <option value="1">1 Retry</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group error-injection-group">
+            <label for="errorInjectionSelect">
+              <span>Deliberate Flaw Injection</span>
+              <span class="tooltip-badge" title="Forces a specific flaw to demonstrate the Evaluator catching it!">Demo Mode</span>
+            </label>
+            <select id="errorInjectionSelect">
+              <option value="none">None (Clean Run → Expected to Pass)</option>
+              <option value="unexplained_jargon">Inject Unexplained Jargon (Vectors/Latent Space)</option>
+              <option value="missing_analogy">Inject Missing Analogy (Fails Teaches-by-Example)</option>
+              <option value="dense_academic">Inject Dense Academic Language (Fails Beginner Vocab)</option>
+            </select>
+            <small class="helper-text">Select an error to observe the Evaluator reject it and trigger automated retry.</small>
+          </div>
+
+          <div class="action-buttons">
+            <button type="button" id="btnRunPipeline" class="btn btn-primary">
+              <span class="btn-icon">⚡</span>
+              <span>Execute Pipeline</span>
+            </button>
+            <button type="button" id="btnDemoCatchError" class="btn btn-secondary">
+              <span class="btn-icon">🛡️</span>
+              <span>Demo Catch Deliberate Error</span>
+            </button>
+          </div>
+        </form>
+
+        <!-- Visual LangGraph State Machine Flow -->
+        <div class="graph-visualizer">
+          <h3>Workflow State Machine (LangGraph)</h3>
+          <div class="nodes-container">
+            <div class="dag-node" id="node-load_memory">
+              <span class="node-icon">🧠</span>
+              <span class="node-title">Memory Engine</span>
+              <span class="node-desc">Load Distilled Rules</span>
+            </div>
+            <div class="dag-connector">→</div>
+            <div class="dag-node" id="node-generate_lesson">
+              <span class="node-icon">✍️</span>
+              <span class="node-title">Generator Agent</span>
+              <span class="node-desc">Prompt & Audience Spec</span>
+            </div>
+            <div class="dag-connector">→</div>
+            <div class="dag-node" id="node-evaluate_lesson">
+              <span class="node-icon">⚖️</span>
+              <span class="node-title">Evaluator Agent</span>
+              <span class="node-desc">6 Hard Checkpoints</span>
+            </div>
+            <div class="dag-connector">→</div>
+            <div class="dag-node conditional-node" id="node-router">
+              <span class="node-icon">🔀</span>
+              <span class="node-title">Router Decision</span>
+              <span class="node-desc">Pass / Bounded Retry</span>
+            </div>
+            <div class="dag-connector">→</div>
+            <div class="dag-node loop-node" id="node-regenerate_lesson">
+              <span class="node-icon">🔄</span>
+              <span class="node-title">Regenerator</span>
+              <span class="node-desc">Targeted Fixes</span>
+            </div>
+            <div class="dag-connector">→</div>
+            <div class="dag-node" id="node-persist_memory">
+              <span class="node-icon">📦</span>
+              <span class="node-title">Persist & Ship</span>
+              <span class="node-desc">Save Logs & Evolve</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Real-time Console Log -->
+        <div class="pipeline-log-card">
+          <div class="log-header">
+            <h4>Live Execution Log</h4>
+            <span id="iterBadge" class="badge">Iteration: 0</span>
+          </div>
+          <div class="log-stream" id="logStream">
+            <div class="log-line text-muted">[System ready. Click "Execute Pipeline" or "Demo Catch Deliberate Error"]</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Outputs, Rubric Inspection, Rejection Logs, Memory -->
+      <section class="output-panel glass-card">
+        <!-- Navigation Tabs -->
+        <div class="output-tabs">
+          <button class="tab-btn active" data-tab="tab-lesson">
+            <span class="tab-icon">📖</span>
+            <span>Final Lesson</span>
+          </button>
+          <button class="tab-btn" data-tab="tab-rubric">
+            <span class="tab-icon">📋</span>
+            <span>Evaluator Rubric (6 Checkpoints)</span>
+            <span class="badge score-pill" id="rubricScoreBadge">0/6</span>
+          </button>
+          <button class="tab-btn" data-tab="tab-rejections">
+            <span class="tab-icon">⚠️</span>
+            <span>Rejection Audit Trail</span>
+            <span class="badge counter-pill" id="rejectionCountBadge">0</span>
+          </button>
+          <button class="tab-btn" data-tab="tab-memory">
+            <span class="tab-icon">🧠</span>
+            <span>Self-Evolving Memory</span>
+          </button>
+        </div>
+
+        <!-- Tab 1: Final Lesson Viewer -->
+        <div class="tab-content active" id="tab-lesson">
+          <div class="content-toolbar">
+            <div class="toolbar-info">
+              <h3 id="lessonTitle">Lesson Preview</h3>
+              <span class="word-count" id="readingMetrics">Target: Indian 12th-Grade Beginner</span>
+            </div>
+            <div class="toolbar-actions">
+              <button class="btn btn-sm" id="btnCopyLesson">Copy Markdown</button>
+              <button class="btn btn-sm btn-outline" id="btnExportDoc">Export Document</button>
+            </div>
+          </div>
+          <div class="lesson-article" id="lessonViewer">
+            <div class="empty-state">
+              <div class="empty-icon">💡</div>
+              <h4>No Lesson Generated Yet</h4>
+              <p>Click "Execute Pipeline" to run the autonomous generator and evaluator cycle.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Rubric Checkpoints Breakdown -->
+        <div class="tab-content" id="tab-rubric">
+          <div class="rubric-header">
+            <div>
+              <h3>Strict Pass/Fail Checkpoints (No Partial Credit)</h3>
+              <p class="rubric-subtitle">Every checkpoint must strictly pass before content is deemed shippable.</p>
+            </div>
+            <div class="overall-decision" id="overallDecisionBanner">
+              <span class="status-chip chip-pending">Pending Evaluation</span>
+            </div>
+          </div>
+
+          <div class="rubric-grid" id="rubricGrid">
+            <!-- Cards populated dynamically by JS -->
+          </div>
+        </div>
+
+        <!-- Tab 3: Rejection Audit Trail -->
+        <div class="tab-content" id="tab-rejections">
+          <div class="rejections-header">
+            <h3>Rejection & Feedback Log</h3>
+            <p>Full audit trail of any failed iterations: what failed, why, and what was fed back to regenerate.</p>
+          </div>
+          <div class="rejections-timeline" id="rejectionsTimeline">
+            <div class="empty-state">
+              <div class="empty-icon">✅</div>
+              <h4>No Rejections Recorded</h4>
+              <p>When an error occurs, the exact failure reasons and corrective feedback will be displayed here.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 4: Self-Evolving Memory -->
+        <div class="tab-content" id="tab-memory">
+          <div class="memory-header">
+            <h3>Persistent System Memory & Dynamic Prompt Sharpening</h3>
+            <p>Persists across runs to learn from feedback and tighten prompts automatically.</p>
+          </div>
+
+          <div class="memory-stats-grid">
+            <div class="stat-card">
+              <span class="stat-value" id="statTotalRuns">0</span>
+              <span class="stat-label">Total Pipeline Runs</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-value" id="statPassRate">100%</span>
+              <span class="stat-label">Overall Pass Rate</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-value" id="statRetries">0</span>
+              <span class="stat-label">Corrective Retries</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-value" id="statActiveRules">3</span>
+              <span class="stat-label">Distilled Guidelines</span>
+            </div>
+          </div>
+
+          <div class="memory-sections">
+            <div class="memory-card">
+              <h4>Distilled Guidelines (Sharpened Prompts)</h4>
+              <p class="card-desc">Rules synthesized from past evaluator rejections, injected automatically into generator prompts:</p>
+              <ul class="rule-list" id="ruleList">
+                <!-- Dynamically populated -->
+              </ul>
+            </div>
+
+            <div class="memory-card">
+              <h4>High-Risk Jargon Watchlist</h4>
+              <p class="card-desc">Terms flagged in prior runs that required immediate plain-English explanations:</p>
+              <div class="jargon-cloud" id="jargonCloud">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div class="footer-left">
+        <span>GenAI Engineer - Content Systems Take-Home Assessment</span>
+      </div>
+      <div class="footer-right">
+        <span>Built with LangGraph, Python & Vanilla CSS</span>
+      </div>
+    </footer>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
