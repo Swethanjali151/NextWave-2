@@ -1,14 +1,14 @@
 {
-  "total_runs": 9,
-  "passed_runs": 7,
-  "total_retries": 4,
+  "total_runs": 16,
+  "passed_runs": 14,
+  "total_retries": 10,
   "checkpoint_failure_counts": {
     "ACCURATE_AND_GROUNDED": 0,
-    "TEACHES_BY_EXAMPLE": 6,
-    "COVERS_KEY_POINTS": 0,
-    "BEGINNER_FRIENDLY_LANGUAGE": 7,
-    "NO_UNEXPLAINED_JARGON": 8,
-    "COHERENT_TEACHING_FLOW": 0
+    "TEACHES_BY_EXAMPLE": 12,
+    "COVERS_KEY_POINTS": 1,
+    "BEGINNER_FRIENDLY_LANGUAGE": 12,
+    "NO_UNEXPLAINED_JARGON": 13,
+    "COHERENT_TEACHING_FLOW": 1
   },
   "flagged_jargon_bank": [
     "cosine similarity",
@@ -84,6 +84,55 @@
     {
       "timestamp": "2026-10-23T11:14:57.805215",
       "topic": "Introduction to RAG",
+      "overall_passed": true,
+      "iterations": 2,
+      "rejections_count": 1
+    },
+    {
+      "timestamp": "2026-10-23T11:34:26.802435",
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "overall_passed": true,
+      "iterations": 2,
+      "rejections_count": 1
+    },
+    {
+      "timestamp": "2026-10-23T11:34:39.306321",
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "overall_passed": true,
+      "iterations": 2,
+      "rejections_count": 1
+    },
+    {
+      "timestamp": "2026-10-23T11:34:46.090064",
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "overall_passed": true,
+      "iterations": 2,
+      "rejections_count": 1
+    },
+    {
+      "timestamp": "2026-10-23T11:34:52.275889",
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "overall_passed": true,
+      "iterations": 1,
+      "rejections_count": 0
+    },
+    {
+      "timestamp": "2026-10-23T11:35:33.578035",
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "overall_passed": true,
+      "iterations": 2,
+      "rejections_count": 1
+    },
+    {
+      "timestamp": "2026-10-23T11:35:45.668131",
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "overall_passed": true,
+      "iterations": 2,
+      "rejections_count": 1
+    },
+    {
+      "timestamp": "2026-10-23T11:35:50.502470",
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
       "overall_passed": true,
       "iterations": 2,
       "rejections_count": 1
